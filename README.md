@@ -8,6 +8,7 @@ O **Cuida+** é um aplicativo mobile e web desenvolvido com React Native e Expo 
 *   **Fluxo de Login:** Proteção simples e integrada para a usuária acessar seus dados.
 *   **Acompanhamento de Sintomas:** Registro inteligente de sintomas com mensagens de aconchego para o dia a dia.
 *   **Calendário de Compromissos:** Organização de consultas e vacinas, permitindo marcar as tarefas como concluídas diretamente no card.
+*   **Comunidade privada:**  Espaço exclusivo e anônimo onde gestantes podem trocar experiências, compartilhar dúvidas e oferecer apoio mútuo.
 
 ---
 
