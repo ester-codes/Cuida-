@@ -3,7 +3,7 @@ import {View,Text,StyleSheet,ScrollView,TouchableOpacity,TextInput, KeyboardAvoi
 
 from 'react-native';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 // Chaves usadas no AsyncStorage
 const CHAVE_IDENTIDADE = '@CuidaMais:identidadeAnonima';
@@ -48,19 +48,20 @@ const gerarIdentidade = () => {
 };
 
 export default function Comunidade() {
-  const [identidade, setIdentidade] = useState(null);
-  const [posts, setPosts] = useState([]);
+  const [identidade, setIdentidade] = useState(null); // ID da usuária: Aqui retornamos como "null" para que o ID possa ser uma string ou um objeto.
+  const [posts, setPosts] = useState([]); // Lista de posts na comunidade 
   const [textoNovoPost, setTextoNovoPost] = useState('');
-  const [postAbertoId, setPostAbertoId] = useState(null);
+  const [postAbertoId, setPostAbertoId] = useState(null); // ID do post que está aberto (mostra os detalhes do post) 
   const [textoResposta, setTextoResposta] = useState('');
-  const [carregando, setCarregando] = useState(true);
+  const [carregando, setCarregando] = useState(true); // Estado de carregamento (true: ainda carregando dados)
 
   // Carrega identidade anônima e posts salvos ao abrir a tela
+  //setup inicial da tela — ele cuida da identidade anônima da usuária, dos posts salvos localmente e do controle de carregamento, garantindo que a comunidade funcione de forma contínua e estável.
   useEffect(() => {
     const carregarDados = async () => {
       try {
-        let identidadeSalva = await AsyncStorage.getItem(CHAVE_IDENTIDADE);
-        if (!identidadeSalva) {
+        let identidadeSalva = await AsyncStorage.getItem(CHAVE_IDENTIDADE); // Tenta recuperar os IDs salvaos
+        if (!identidadeSalva) { // Se ainda não existir, cria uma identidade anônima nova
           const novaIdentidade = gerarIdentidade();
           await AsyncStorage.setItem(CHAVE_IDENTIDADE, JSON.stringify(novaIdentidade));
           identidadeSalva = JSON.stringify(novaIdentidade);
@@ -68,17 +69,18 @@ export default function Comunidade() {
         setIdentidade(JSON.parse(identidadeSalva));
 
         const postsSalvos = await AsyncStorage.getItem(CHAVE_POSTS);
-        if (postsSalvos) {
+        if (postsSalvos) { // Aqui coloco para usar posts salvos, caso já tenha 
           setPosts(JSON.parse(postsSalvos));
-        } else {
+        } else { // Caso não exista, carrega posts iniciais e salva no async
           setPosts(POSTS_INICIAIS);
           await AsyncStorage.setItem(CHAVE_POSTS, JSON.stringify(POSTS_INICIAIS));
         }
-      } catch (erro) {
+      } catch (erro) { // Se der erro, loga no console e usa posts iniciais como fallback
+    // Catch funciona como uma rede de segurança, se der erro, impede que o app quebre e usa dados iniciais 
         console.log('Erro ao carregar dados da comunidade:', erro);
         setPosts(POSTS_INICIAIS);
-      } finally {
-        setCarregando(false);
+      } finally { // Garantia de que sempre vai rodar para liberar o carregamento e mostrar na tela 
+        setCarregando(false); // Aqui usei o "finally" para encerrar o estado de carregamento, não importa se os dados vieram do storage ou se caiu no fallback, a tela precisa parar de carregar e mostrar o conteúdo.
       }
     };
     carregarDados();
