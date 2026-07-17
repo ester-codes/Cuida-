@@ -19,7 +19,7 @@ const SINTOMAS = [
 
 export default function Sintomas() {
 
-  const [alerta, setAlerta] = useState(null); // para começar com o estado de alerta vazio
+  const [alerta, setAlerta] = useState(null); // Para o app começar com o estado de alerta vazio (aqui usei "null" ao invés de uma string normal para identificar o espaço vazio).
   const [selecionados, setSelecionados] = useState({});
 
   const toggleSintoma = (id) => {
@@ -38,7 +38,7 @@ export default function Sintomas() {
     // Pega apenas os sintomas que são perigosos
     const temPerigo = SINTOMAS.some(sintoma => idsMarcados.includes(sintoma.id) && sintoma.perigoso);
 
-    if (temPerigo) {
+    if (temPerigo) { // Filtro para verificar riscos dos sintomas
       setAlerta('Seus sintomas devem ser avaliados por um médico! Procure agora um pronto-socorro');
       Alert.alert('Atenção', 'Seus sintomas devem ser avaliados por um médico! Procure agora um pronto-socorro');
     } else {
